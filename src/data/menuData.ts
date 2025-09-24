@@ -1,218 +1,264 @@
-import { MenuItem } from '../types';
+import { BatteryProduct } from '../types';
 
-export const menuData: MenuItem[] = [
-  // Dim Sum
+export const menuData: BatteryProduct[] = [
+  // Car Batteries
   {
-    id: 'har-gow',
-    name: 'Har Gow (Shrimp Dumplings)',
-    description: 'Delicate translucent dumplings filled with fresh shrimp and bamboo shoots',
-    basePrice: 180,
-    category: 'dim-sum',
+    id: 'power-max-12v-60ah',
+    name: 'PowerMax 12V 60Ah AGM Battery',
+    description: 'Premium AGM battery with superior starting power and deep cycle capability. Perfect for modern vehicles with high electrical demands.',
+    basePrice: 189.99,
+    category: 'car',
     popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 60,
+    cca: 600,
+    dimensions: {
+      length: 10.9,
+      width: 6.8,
+      height: 7.5,
+      unit: 'inches'
+    },
+    weight: 38.5,
+    terminalType: 'top-post',
+    batteryType: 'agm',
+    warranty: 24,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 15,
+    compatibilities: [
+      { id: '1', make: 'Honda', model: 'Civic', year: '2016-2023' },
+      { id: '2', make: 'Toyota', model: 'Camry', year: '2018-2023' },
+      { id: '3', make: 'Ford', model: 'Focus', year: '2015-2020' }
+    ]
   },
   {
-    id: 'siu-mai',
-    name: 'Siu Mai (Pork & Shrimp Dumplings)',
-    description: 'Traditional open-topped dumplings with pork, shrimp, and mushrooms',
-    basePrice: 160,
-    category: 'dim-sum',
+    id: 'power-max-12v-75ah',
+    name: 'PowerMax 12V 75Ah Premium Battery',
+    description: 'High-capacity AGM battery designed for luxury vehicles and high-performance applications. Features advanced plate technology for extended life.',
+    basePrice: 249.99,
+    category: 'car',
     popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 75,
+    cca: 750,
+    dimensions: {
+      length: 12.4,
+      width: 6.8,
+      height: 7.5,
+      unit: 'inches'
+    },
+    weight: 45.2,
+    terminalType: 'top-post',
+    batteryType: 'agm',
+    warranty: 36,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 8,
+    discountPrice: 219.99,
+    discountActive: true,
+    effectivePrice: 219.99,
+    isOnDiscount: true
   },
   {
-    id: 'char-siu-bao',
-    name: 'Char Siu Bao (BBQ Pork Buns)',
-    description: 'Fluffy steamed buns filled with sweet and savory BBQ pork',
-    basePrice: 140,
-    category: 'dim-sum',
-    popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'xiao-long-bao',
-    name: 'Xiao Long Bao (Soup Dumplings)',
-    description: 'Delicate dumplings filled with pork and savory broth',
-    basePrice: 220,
-    category: 'dim-sum',
-    popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'cheung-fun',
-    name: 'Cheung Fun (Rice Noodle Rolls)',
-    description: 'Silky rice noodle rolls with choice of shrimp, beef, or char siu',
-    basePrice: 180,
-    category: 'dim-sum',
-    variations: [
-      { id: 'shrimp', name: 'Shrimp', price: 0 },
-      { id: 'beef', name: 'Beef', price: 20 },
-      { id: 'char-siu', name: 'Char Siu', price: 15 }
-    ],
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'turnip-cake',
-    name: 'Lo Bak Go (Turnip Cake)',
-    description: 'Pan-fried radish cake with Chinese sausage and dried shrimp',
-    basePrice: 120,
-    category: 'dim-sum',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-
-  // Noodles
-  {
-    id: 'beef-chow-fun',
-    name: 'Beef Chow Fun',
-    description: 'Stir-fried wide rice noodles with tender beef and bean sprouts',
-    basePrice: 280,
-    category: 'noodles',
-    popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'dan-dan-noodles',
-    name: 'Dan Dan Noodles',
-    description: 'Sichuan noodles with spicy sesame sauce and minced pork',
-    basePrice: 250,
-    category: 'noodles',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'wonton-noodle-soup',
-    name: 'Wonton Noodle Soup',
-    description: 'Fresh egg noodles in clear broth with pork and shrimp wontons',
-    basePrice: 220,
-    category: 'noodles',
-    popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'pad-thai',
-    name: 'Pad Thai',
-    description: 'Thai stir-fried rice noodles with shrimp, tofu, and peanuts',
-    basePrice: 260,
-    category: 'noodles',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'lo-mein',
-    name: 'Chicken Lo Mein',
-    description: 'Soft egg noodles tossed with chicken and vegetables',
-    basePrice: 240,
-    category: 'noodles',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    id: 'power-max-12v-50ah-lithium',
+    name: 'PowerMax 12V 50Ah Lithium Battery',
+    description: 'Ultra-lightweight lithium battery with exceptional power density. Perfect for performance vehicles and applications requiring maximum power-to-weight ratio.',
+    basePrice: 399.99,
+    category: 'car',
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 50,
+    cca: 800,
+    dimensions: {
+      length: 10.9,
+      width: 6.8,
+      height: 7.5,
+      unit: 'inches'
+    },
+    weight: 18.5,
+    terminalType: 'top-post',
+    batteryType: 'lithium',
+    warranty: 60,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 5
   },
 
-  // Rice Dishes
+  // Truck Batteries
   {
-    id: 'yang-chow-fried-rice',
-    name: 'Yang Chow Fried Rice',
-    description: 'Classic fried rice with shrimp, char siu, and eggs',
-    basePrice: 280,
-    category: 'rice-dishes',
+    id: 'power-max-12v-100ah-heavy-duty',
+    name: 'PowerMax 12V 100Ah Heavy Duty Battery',
+    description: 'Industrial-strength battery designed for commercial trucks and heavy-duty applications. Built to withstand extreme conditions and high vibration.',
+    basePrice: 329.99,
+    category: 'truck',
     popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 100,
+    cca: 950,
+    dimensions: {
+      length: 13.0,
+      width: 6.8,
+      height: 9.4,
+      unit: 'inches'
+    },
+    weight: 65.0,
+    terminalType: 'both',
+    batteryType: 'agm',
+    warranty: 24,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 12,
+    compatibilities: [
+      { id: '4', make: 'Ford', model: 'F-150', year: '2015-2023' },
+      { id: '5', make: 'Chevrolet', model: 'Silverado', year: '2014-2023' },
+      { id: '6', make: 'Ram', model: '1500', year: '2013-2023' }
+    ]
   },
   {
-    id: 'beef-broccoli-rice',
-    name: 'Beef and Broccoli Rice',
-    description: 'Tender beef with fresh broccoli in savory sauce over steamed rice',
-    basePrice: 320,
-    category: 'rice-dishes',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'sweet-sour-pork-rice',
-    name: 'Sweet and Sour Pork Rice',
-    description: 'Crispy pork with pineapple and bell peppers in tangy sauce',
-    basePrice: 300,
-    category: 'rice-dishes',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'mapo-tofu-rice',
-    name: 'Mapo Tofu Rice',
-    description: 'Silky tofu in spicy Sichuan sauce with ground pork over rice',
-    basePrice: 260,
-    category: 'rice-dishes',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'kung-pao-chicken-rice',
-    name: 'Kung Pao Chicken Rice',
-    description: 'Diced chicken with peanuts and chili peppers in savory sauce',
-    basePrice: 290,
-    category: 'rice-dishes',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    id: 'power-max-12v-80ah-commercial',
+    name: 'PowerMax 12V 80Ah Commercial Battery',
+    description: 'Reliable commercial-grade battery for delivery trucks and fleet vehicles. Optimized for frequent starting and deep cycling applications.',
+    basePrice: 279.99,
+    category: 'truck',
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 80,
+    cca: 850,
+    dimensions: {
+      length: 12.4,
+      width: 6.8,
+      height: 9.4,
+      unit: 'inches'
+    },
+    weight: 52.0,
+    terminalType: 'top-post',
+    batteryType: 'lead-acid',
+    warranty: 18,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 20
   },
 
-  // Beverages
+  // Marine Batteries
   {
-    id: 'jasmine-tea',
-    name: 'Jasmine Tea',
-    description: 'Fragrant jasmine tea served hot in traditional pot',
-    basePrice: 80,
-    category: 'beverages',
+    id: 'power-max-12v-100ah-marine',
+    name: 'PowerMax 12V 100Ah Marine Deep Cycle',
+    description: 'Specialized marine battery designed for boats and watercraft. Features corrosion-resistant terminals and vibration-resistant construction.',
+    basePrice: 289.99,
+    category: 'marine',
     popular: true,
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 100,
+    cca: 800,
+    dimensions: {
+      length: 13.0,
+      width: 6.8,
+      height: 9.4,
+      unit: 'inches'
+    },
+    weight: 58.0,
+    terminalType: 'top-post',
+    batteryType: 'agm',
+    warranty: 24,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 10
   },
   {
-    id: 'oolong-tea',
-    name: 'Oolong Tea',
-    description: 'Premium oolong tea with complex floral notes',
-    basePrice: 100,
-    category: 'beverages',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
+    id: 'power-max-12v-75ah-marine-gel',
+    name: 'PowerMax 12V 75Ah Marine Gel Battery',
+    description: 'Gel cell marine battery with superior deep cycle performance. Ideal for trolling motors and marine electronics.',
+    basePrice: 229.99,
+    category: 'marine',
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 75,
+    cca: 700,
+    dimensions: {
+      length: 12.4,
+      width: 6.8,
+      height: 9.4,
+      unit: 'inches'
+    },
+    weight: 48.0,
+    terminalType: 'top-post',
+    batteryType: 'gel',
+    warranty: 18,
+    freeShipping: true,
+    inStock: true,
+    stockQuantity: 7
+  },
+
+  // Motorcycle Batteries
+  {
+    id: 'power-max-12v-14ah-motorcycle',
+    name: 'PowerMax 12V 14Ah Motorcycle Battery',
+    description: 'Compact AGM battery designed for motorcycles and ATVs. Features spill-proof design and superior vibration resistance.',
+    basePrice: 89.99,
+    category: 'motorcycle',
+    popular: true,
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 14,
+    cca: 200,
+    dimensions: {
+      length: 6.0,
+      width: 3.4,
+      height: 5.9,
+      unit: 'inches'
+    },
+    weight: 8.5,
+    terminalType: 'top-post',
+    batteryType: 'agm',
+    warranty: 12,
+    freeShipping: false,
+    inStock: true,
+    stockQuantity: 25
   },
   {
-    id: 'chrysanthemum-tea',
-    name: 'Chrysanthemum Tea',
-    description: 'Cooling herbal tea with dried chrysanthemum flowers',
-    basePrice: 90,
-    category: 'beverages',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'lychee-juice',
-    name: 'Fresh Lychee Juice',
-    description: 'Sweet and refreshing lychee juice served chilled',
-    basePrice: 120,
-    category: 'beverages',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'winter-melon-tea',
-    name: 'Winter Melon Tea',
-    description: 'Traditional Chinese tea with subtle sweet flavor',
-    basePrice: 85,
-    category: 'beverages',
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 'hot-soy-milk',
-    name: 'Hot Soy Milk',
-    description: 'Fresh soy milk served hot with optional sugar',
-    basePrice: 70,
-    category: 'beverages',
-    variations: [
-      { id: 'plain', name: 'Plain', price: 0 },
-      { id: 'sweet', name: 'Sweetened', price: 10 }
-    ],
-    image: 'https://images.pexels.com/photos/4518843/pexels-photo-4518843.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
+    id: 'power-max-12v-18ah-sport-bike',
+    name: 'PowerMax 12V 18Ah Sport Bike Battery',
+    description: 'High-performance battery for sport motorcycles and high-displacement bikes. Optimized for quick starting and reliable power delivery.',
+    basePrice: 119.99,
+    category: 'motorcycle',
+    available: true,
+    image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    voltage: 12,
+    capacity: 18,
+    cca: 280,
+    dimensions: {
+      length: 6.0,
+      width: 3.4,
+      height: 6.9,
+      unit: 'inches'
+    },
+    weight: 11.2,
+    terminalType: 'top-post',
+    batteryType: 'agm',
+    warranty: 12,
+    freeShipping: false,
+    inStock: true,
+    stockQuantity: 18
+  }
 ];
 
 export const categories = [
-  { id: 'dim-sum', name: 'Dim Sum', icon: '🥟' },
-  { id: 'noodles', name: 'Noodles', icon: '🍜' },
-  { id: 'rice-dishes', name: 'Rice Dishes', icon: '🍚' },
-  { id: 'beverages', name: 'Beverages', icon: '🍵' }
-];
-
-export const addOnCategories = [
-  { id: 'spice', name: 'Spice Level' },
-  { id: 'protein', name: 'Extra Protein' },
-  { id: 'sauce', name: 'Sauces' },
-  { id: 'extras', name: 'Extras' }
+  { id: 'car', name: 'Car Batteries', icon: '🚗' },
+  { id: 'truck', name: 'Truck Batteries', icon: '🚛' },
+  { id: 'marine', name: 'Marine Batteries', icon: '⛵' },
+  { id: 'motorcycle', name: 'Motorcycle Batteries', icon: '🏍️' },
+  { id: 'accessories', name: 'Accessories', icon: '🔧' },
+  { id: 'warranty', name: 'Warranty & Support', icon: '🛡️' }
 ];

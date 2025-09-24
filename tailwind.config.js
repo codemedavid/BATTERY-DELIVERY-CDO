@@ -4,27 +4,48 @@ export default {
   theme: {
     extend: {
       colors: {
-        ramen: {
-          red: '#D7263D',
-          dark: '#0B0A0A',
-          charcoal: '#111113',
-          cream: '#FFF3E0',
-          beige: '#F7E7CE',
-          gold: '#E0A106',
-          sesame: '#D1C7B7',
-          seaweed: '#1F2937',
-          kimchi: '#B81D24'
+        battery: {
+          // Deep blue (trust, reliability)
+          primary: '#1E3A8A',      // Deep blue
+          'primary-dark': '#1E40AF', // Darker blue
+          'primary-light': '#3B82F6', // Lighter blue
+          
+          // Metallic gray/silver (durability, automotive feel)
+          secondary: '#6B7280',     // Metallic gray
+          'secondary-dark': '#4B5563', // Darker gray
+          'secondary-light': '#9CA3AF', // Lighter gray
+          silver: '#C0C0C0',        // Pure silver
+          
+          // Yellow/orange accents (energy, power)
+          accent: '#F59E0B',        // Orange
+          'accent-light': '#FCD34D', // Light orange
+          'accent-dark': '#D97706',  // Dark orange
+          yellow: '#EAB308',        // Yellow
+          
+          // Backgrounds
+          background: '#F8FAFC',    // Light gray background
+          'background-dark': '#F1F5F9', // Slightly darker background
+          white: '#FFFFFF',         // Pure white
+          
+          // Text colors
+          text: '#1F2937',          // Dark gray text
+          'text-light': '#6B7280',  // Light gray text
+          'text-muted': '#9CA3AF'   // Muted text
         }
       },
       fontFamily: {
-        'pretendard': ['Pretendard', 'system-ui', 'sans-serif'],
-        'noto-kr': ['Noto Serif KR', 'serif']
+        'poppins': ['Poppins', 'system-ui', 'sans-serif'],
+        'lato': ['Lato', 'system-ui', 'sans-serif'],
+        'sans': ['Poppins', 'system-ui', 'sans-serif']
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.4s ease-out',
-        'bounce-gentle': 'bounceGentle 0.6s ease-out',
-        'scale-in': 'scaleIn 0.3s ease-out'
+        'slide-down': 'slideDown 0.4s ease-out',
+        'scale-in': 'scaleIn 0.3s ease-out',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
+        'hover-lift': 'hoverLift 0.3s ease-out'
       },
       keyframes: {
         fadeIn: {
@@ -35,14 +56,25 @@ export default {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' }
         },
-        bounceGentle: {
-          '0%, 20%, 50%, 80%, 100%': { transform: 'translateY(0)' },
-          '40%': { transform: 'translateY(-4px)' },
-          '60%': { transform: 'translateY(-2px)' }
+        slideDown: {
+          '0%': { transform: 'translateY(-20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' }
         },
         scaleIn: {
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' }
+        },
+        pulseGlow: {
+          '0%, 100%': { boxShadow: '0 0 5px rgba(59, 130, 246, 0.5)' },
+          '50%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.8)' }
+        },
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' }
+        },
+        hoverLift: {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-4px)' }
         }
       }
     },

@@ -1,28 +1,47 @@
-export interface Variation {
+// Battery Product Types
+export interface BatterySpec {
   id: string;
   name: string;
-  price: number;
+  value: string;
+  unit?: string;
 }
 
-export interface AddOn {
+export interface Compatibility {
   id: string;
-  name: string;
-  price: number;
-  category: string;
-  quantity?: number;
+  make: string;
+  model: string;
+  year: string;
+  engine?: string;
 }
 
-export interface MenuItem {
+export interface BatteryProduct {
   id: string;
   name: string;
   description: string;
   basePrice: number;
-  category: string;
+  category: string; // car, truck, marine, motorcycle, etc.
   image?: string;
   popular?: boolean;
   available?: boolean;
-  variations?: Variation[];
-  addOns?: AddOn[];
+  
+  // Battery Specifications
+  voltage: number; // 12V, 6V, etc.
+  capacity: number; // Ah (Amp Hours)
+  cca: number; // Cold Cranking Amps
+  dimensions: {
+    length: number;
+    width: number;
+    height: number;
+    unit: 'inches' | 'mm';
+  };
+  weight: number; // in pounds or kg
+  terminalType: 'top-post' | 'side-post' | 'both';
+  batteryType: 'lead-acid' | 'agm' | 'gel' | 'lithium';
+  
+  // Compatibility
+  compatibilities?: Compatibility[];
+  specifications?: BatterySpec[];
+  
   // Discount pricing fields
   discountPrice?: number;
   discountStartDate?: string;
@@ -31,12 +50,16 @@ export interface MenuItem {
   // Computed effective price (calculated in the app)
   effectivePrice?: number;
   isOnDiscount?: boolean;
+  
+  // Warranty and shipping
+  warranty: number; // months
+  freeShipping?: boolean;
+  inStock?: boolean;
+  stockQuantity?: number;
 }
 
-export interface CartItem extends MenuItem {
+export interface CartItem extends BatteryProduct {
   quantity: number;
-  selectedVariation?: Variation;
-  selectedAddOns?: AddOn[];
   totalPrice: number;
 }
 
@@ -44,20 +67,32 @@ export interface OrderData {
   items: CartItem[];
   customerName: string;
   contactNumber: string;
-  serviceType: 'dine-in' | 'pickup' | 'delivery';
+  email?: string;
+  serviceType: 'pickup' | 'delivery' | 'installation';
   address?: string;
-  pickupTime?: string;
-  // Dine-in specific fields
-  partySize?: number;
-  dineInTime?: string;
-  paymentMethod: 'gcash' | 'maya' | 'bank-transfer';
+  deliveryDate?: string;
+  deliveryTime?: string;
+  // Installation specific fields
+  installationRequired?: boolean;
+  installationDate?: string;
+  vehicleInfo?: {
+    make: string;
+    model: string;
+    year: string;
+    engine?: string;
+  };
+  paymentMethod: 'credit-card' | 'paypal' | 'bank-transfer' | 'cash';
   referenceNumber?: string;
   total: number;
   notes?: string;
+  // Battery store specific
+  coreCharge?: number;
+  installationFee?: number;
 }
 
-export type PaymentMethod = 'gcash' | 'maya' | 'bank-transfer';
-export type ServiceType = 'dine-in' | 'pickup' | 'delivery';
+export type PaymentMethod = 'credit-card' | 'paypal' | 'bank-transfer' | 'cash';
+export type ServiceType = 'pickup' | 'delivery' | 'installation';
+export type VehicleType = 'car' | 'truck' | 'marine' | 'motorcycle' | 'rv' | 'atv';
 
 // Site Settings Types
 export interface SiteSetting {

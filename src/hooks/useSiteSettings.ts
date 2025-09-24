@@ -21,10 +21,10 @@ export const useSiteSettings = () => {
 
       // Transform the data into a more usable format
       const settings: SiteSettings = {
-        site_name: data.find(s => s.id === 'site_name')?.value || 'Beracah Cafe',
-        site_logo: data.find(s => s.id === 'site_logo')?.value || '',
-        site_description: data.find(s => s.id === 'site_description')?.value || '',
-        currency: data.find(s => s.id === 'currency')?.value || 'PHP',
+        site_name: data.find(s => s.id === 'site_name')?.value || 'BATTERY DELIVERY CDO',
+        site_logo: data.find(s => s.id === 'site_logo')?.value || '/logo.jpg',
+        site_description: data.find(s => s.id === 'site_description')?.value || '⚡ "Fast & Reliable Car Battery Delivery & Installation in CDO 🚗🔋 | 24/7 Service | Dead Battery? We\'re just a call away!"',
+        currency: data.find(s => s.id === 'currency')?.value || '₱',
         currency_code: data.find(s => s.id === 'currency_code')?.value || 'PHP'
       };
 
@@ -64,8 +64,7 @@ export const useSiteSettings = () => {
       const updatePromises = Object.entries(updates).map(([key, value]) =>
         supabase
           .from('site_settings')
-          .update({ value })
-          .eq('id', key)
+          .upsert({ id: key, value, type: 'text', updated_at: new Date().toISOString() })
       );
 
       const results = await Promise.all(updatePromises);
@@ -85,6 +84,33 @@ export const useSiteSettings = () => {
     }
   };
 
+  const initializeSiteSettings = async () => {
+    try {
+      setError(null);
+
+      const defaultSettings = [
+        { id: 'site_name', value: 'BATTERY DELIVERY CDO', type: 'text', description: 'The name of the battery store' },
+        { id: 'site_logo', value: '/logo.jpg', type: 'image', description: 'The logo image URL for the site' },
+        { id: 'site_description', value: '⚡ "Fast & Reliable Car Battery Delivery & Installation in CDO 🚗🔋 | 24/7 Service | Dead Battery? We\'re just a call away!"', type: 'text', description: 'Short description of the battery store' },
+        { id: 'currency', value: '₱', type: 'text', description: 'Currency symbol for prices' },
+        { id: 'currency_code', value: 'PHP', type: 'text', description: 'Currency code for payments' }
+      ];
+
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert(defaultSettings, { onConflict: 'id' });
+
+      if (error) throw error;
+
+      // Refresh the settings
+      await fetchSiteSettings();
+    } catch (err) {
+      console.error('Error initializing site settings:', err);
+      setError(err instanceof Error ? err.message : 'Failed to initialize site settings');
+      throw err;
+    }
+  };
+
   useEffect(() => {
     fetchSiteSettings();
   }, []);
@@ -95,6 +121,7 @@ export const useSiteSettings = () => {
     error,
     updateSiteSetting,
     updateSiteSettings,
+    initializeSiteSettings,
     refetch: fetchSiteSettings
   };
 };

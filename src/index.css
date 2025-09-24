@@ -1,15 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Ramen Yard Custom Styles */
-/* Minimal helpers for ramen palette when needed outside tailwind tokens */
-.bg-ramen-cream { background-color: #FFF3E0; }
-.bg-ramen-beige { background-color: #F7E7CE; }
-.text-ramen-red { color: #D7263D; }
-.text-ramen-dark { color: #0B0A0A; }
-.border-ramen-sesame { border-color: #D1C7B7; }
-.ring-ramen-gold { --tw-ring-color: #E0A106; }
+/* Battery Store Custom Styles */
+/* Industrial-modern design system */
+.bg-battery-primary { background-color: #1E3A8A; }
+
+/* Text truncation utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bg-battery-secondary { background-color: #6B7280; }
+.bg-battery-accent { background-color: #F59E0B; }
+.text-battery-primary { color: #1E3A8A; }
+.text-battery-secondary { color: #6B7280; }
+.text-battery-accent { color: #F59E0B; }
+.border-battery-primary { border-color: #1E3A8A; }
+.border-battery-secondary { border-color: #6B7280; }
+.border-battery-accent { border-color: #F59E0B; }
+.ring-battery-primary { --tw-ring-color: #1E3A8A; }
+.ring-battery-accent { --tw-ring-color: #F59E0B; }
+
+/* Industrial button styles */
+.btn-industrial {
+  @apply bg-battery-primary text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:bg-battery-primary-dark hover:shadow-lg hover:-translate-y-1;
+}
+
+.btn-industrial-secondary {
+  @apply bg-battery-secondary text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:bg-battery-secondary-dark hover:shadow-lg hover:-translate-y-1;
+}
+
+.btn-accent {
+  @apply bg-battery-accent text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:bg-battery-accent-dark hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+}
+
+/* Shimmer loading effect */
+.shimmer {
+  @apply relative overflow-hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
 
 /* Hide scrollbar for mobile nav */
 .scrollbar-hide {

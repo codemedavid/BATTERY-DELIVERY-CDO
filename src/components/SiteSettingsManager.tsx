@@ -4,7 +4,7 @@ import { useSiteSettings } from '../hooks/useSiteSettings';
 import { useImageUpload } from '../hooks/useImageUpload';
 
 const SiteSettingsManager: React.FC = () => {
-  const { siteSettings, loading, updateSiteSettings } = useSiteSettings();
+  const { siteSettings, loading, updateSiteSettings, initializeSiteSettings } = useSiteSettings();
   const { uploadImage, uploading } = useImageUpload();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -88,6 +88,14 @@ const SiteSettingsManager: React.FC = () => {
     setLogoFile(null);
   };
 
+  const handleInitializeSettings = async () => {
+    try {
+      await initializeSiteSettings();
+    } catch (error) {
+      console.error('Error initializing site settings:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="bg-white rounded-xl shadow-sm p-6">
@@ -106,44 +114,54 @@ const SiteSettingsManager: React.FC = () => {
   return (
     <div className="bg-white rounded-xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-noto font-semibold text-black">Site Settings</h2>
-        {!isEditing ? (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 flex items-center space-x-2"
-          >
-            <Save className="h-4 w-4" />
-            <span>Edit Settings</span>
-          </button>
-        ) : (
-          <div className="flex space-x-2">
-            <button
-              onClick={handleCancel}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 flex items-center space-x-2"
-            >
-              <X className="h-4 w-4" />
-              <span>Cancel</span>
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={uploading}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 flex items-center space-x-2 disabled:opacity-50"
-            >
-              <Save className="h-4 w-4" />
-              <span>{uploading ? 'Saving...' : 'Save Changes'}</span>
-            </button>
-          </div>
-        )}
+        <h2 className="text-2xl font-poppins font-semibold text-battery-text">Site Settings</h2>
+        <div className="flex items-center space-x-2">
+          {!isEditing ? (
+            <>
+              <button
+                onClick={handleInitializeSettings}
+                className="bg-battery-accent text-white px-4 py-2 rounded-lg hover:bg-battery-accent-dark transition-colors duration-200 flex items-center space-x-2"
+              >
+                <span>Initialize Settings</span>
+              </button>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="bg-battery-primary text-white px-4 py-2 rounded-lg hover:bg-battery-primary-dark transition-colors duration-200 flex items-center space-x-2"
+              >
+                <Save className="h-4 w-4" />
+                <span>Edit Settings</span>
+              </button>
+            </>
+          ) : (
+            <div className="flex space-x-2">
+              <button
+                onClick={handleCancel}
+                className="bg-battery-secondary text-white px-4 py-2 rounded-lg hover:bg-battery-secondary-dark transition-colors duration-200 flex items-center space-x-2"
+              >
+                <X className="h-4 w-4" />
+                <span>Cancel</span>
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={uploading}
+                className="bg-battery-primary text-white px-4 py-2 rounded-lg hover:bg-battery-primary-dark transition-colors duration-200 flex items-center space-x-2 disabled:opacity-50"
+              >
+                <Save className="h-4 w-4" />
+                <span>{uploading ? 'Saving...' : 'Save Changes'}</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="space-y-6">
         {/* Site Logo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-battery-text mb-2">
             Site Logo
           </label>
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-lg overflow-hidden bg-battery-background flex items-center justify-center">
               {logoPreview ? (
                 <img
                   src={logoPreview}
@@ -151,7 +169,7 @@ const SiteSettingsManager: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="text-2xl text-gray-400">☕</div>
+                <div className="text-2xl text-battery-text-light">🔋</div>
               )}
             </div>
             {isEditing && (
@@ -165,7 +183,7 @@ const SiteSettingsManager: React.FC = () => {
                 />
                 <label
                   htmlFor="logo-upload"
-                  className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center space-x-2 cursor-pointer"
+                  className="bg-battery-background text-battery-text px-4 py-2 rounded-lg hover:bg-battery-secondary-light transition-colors duration-200 flex items-center space-x-2 cursor-pointer"
                 >
                   <Upload className="h-4 w-4" />
                   <span>Upload Logo</span>
@@ -177,7 +195,7 @@ const SiteSettingsManager: React.FC = () => {
 
         {/* Site Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-battery-text mb-2">
             Site Name
           </label>
           {isEditing ? (
@@ -186,17 +204,17 @@ const SiteSettingsManager: React.FC = () => {
               name="site_name"
               value={formData.site_name}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-battery-primary focus:border-battery-primary"
               placeholder="Enter site name"
             />
           ) : (
-            <p className="text-lg font-medium text-black">{siteSettings?.site_name}</p>
+            <p className="text-lg font-medium text-battery-text">{siteSettings?.site_name}</p>
           )}
         </div>
 
         {/* Site Description */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-battery-text mb-2">
             Site Description
           </label>
           {isEditing ? (
@@ -205,18 +223,18 @@ const SiteSettingsManager: React.FC = () => {
               value={formData.site_description}
               onChange={handleInputChange}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-battery-primary focus:border-battery-primary"
               placeholder="Enter site description"
             />
           ) : (
-            <p className="text-gray-600">{siteSettings?.site_description}</p>
+            <p className="text-battery-text-light">{siteSettings?.site_description}</p>
           )}
         </div>
 
         {/* Currency Settings */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-battery-text mb-2">
               Currency Symbol
             </label>
             {isEditing ? (
@@ -225,15 +243,15 @@ const SiteSettingsManager: React.FC = () => {
                 name="currency"
                 value={formData.currency}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-battery-primary focus:border-battery-primary"
                 placeholder="e.g., ₱, $, €"
               />
             ) : (
-              <p className="text-lg font-medium text-black">{siteSettings?.currency}</p>
+              <p className="text-lg font-medium text-battery-text">{siteSettings?.currency}</p>
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-battery-text mb-2">
               Currency Code
             </label>
             {isEditing ? (
@@ -242,11 +260,11 @@ const SiteSettingsManager: React.FC = () => {
                 name="currency_code"
                 value={formData.currency_code}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-battery-primary focus:border-battery-primary"
                 placeholder="e.g., PHP, USD, EUR"
               />
             ) : (
-              <p className="text-lg font-medium text-black">{siteSettings?.currency_code}</p>
+              <p className="text-lg font-medium text-battery-text">{siteSettings?.currency_code}</p>
             )}
           </div>
         </div>

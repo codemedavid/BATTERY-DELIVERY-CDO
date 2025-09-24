@@ -1,29 +1,31 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { MenuItem } from '../types';
+import { BatteryProduct } from '../types';
 
 export const useMenu = () => {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [menuItems, setMenuItems] = useState<BatteryProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchMenuItems = async () => {
     try {
       setLoading(true);
+      console.log('🔍 [useMenu] Fetching menu items from database...');
       
-      // Fetch menu items with their variations and add-ons
+      // Fetch battery products from menu_items table
       const { data: items, error: itemsError } = await supabase
         .from('menu_items')
-        .select(`
-          *,
-          variations (*),
-          add_ons (*)
-        `)
+        .select('*')
         .order('created_at', { ascending: true });
 
-      if (itemsError) throw itemsError;
+      if (itemsError) {
+        console.error('❌ [useMenu] Database error:', itemsError);
+        throw itemsError;
+      }
 
-      const formattedItems: MenuItem[] = items?.map(item => {
+      console.log('📦 [useMenu] Raw items from database:', items);
+
+      const formattedItems: BatteryProduct[] = items?.map(item => {
         // Calculate if discount is currently active
         const now = new Date();
         const discountStart = item.discount_start_date ? new Date(item.discount_start_date) : null;
@@ -42,42 +44,45 @@ export const useMenu = () => {
           description: item.description,
           basePrice: item.base_price,
           category: item.category,
-          popular: item.popular,
+          popular: item.popular || false,
           available: item.available ?? true,
           image: item.image_url || undefined,
+          voltage: item.voltage || 12,
+          capacity: item.capacity || 0,
+          cca: item.cca || 0,
+          dimensions: item.dimensions || { length: 0, width: 0, height: 0, unit: 'inches' },
+          weight: item.weight || 0,
+          terminalType: item.terminal_type || 'top-post',
+          batteryType: item.battery_type || 'lead-acid',
+          warranty: item.warranty || 12,
+          freeShipping: item.free_shipping || false,
+          inStock: item.in_stock ?? true,
+          stockQuantity: item.stock_quantity || 0,
           discountPrice: item.discount_price || undefined,
           discountStartDate: item.discount_start_date || undefined,
           discountEndDate: item.discount_end_date || undefined,
           discountActive: item.discount_active || false,
           effectivePrice,
           isOnDiscount: isDiscountActive,
-          variations: item.variations?.map(v => ({
-            id: v.id,
-            name: v.name,
-            price: v.price
-          })) || [],
-          addOns: item.add_ons?.map(a => ({
-            id: a.id,
-            name: a.name,
-            price: a.price,
-            category: a.category
-          })) || []
+          compatibilities: [] // Will be populated from a separate table if needed
         };
       }) || [];
 
+      console.log('✅ [useMenu] Formatted items:', formattedItems);
       setMenuItems(formattedItems);
       setError(null);
     } catch (err) {
-      console.error('Error fetching menu items:', err);
+      console.error('❌ [useMenu] Error fetching menu items:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch menu items');
     } finally {
       setLoading(false);
     }
   };
 
-  const addMenuItem = async (item: Omit<MenuItem, 'id'>) => {
+  const addMenuItem = async (item: Omit<BatteryProduct, 'id'>) => {
     try {
-      // Insert menu item
+      console.log('➕ [useMenu] Adding new battery product:', item);
+      // Insert battery product
       const { data: menuItem, error: itemError } = await supabase
         .from('menu_items')
         .insert({
@@ -88,6 +93,17 @@ export const useMenu = () => {
           popular: item.popular || false,
           available: item.available ?? true,
           image_url: item.image || null,
+          voltage: item.voltage,
+          capacity: item.capacity,
+          cca: item.cca,
+          dimensions: item.dimensions,
+          weight: item.weight,
+          terminal_type: item.terminalType,
+          battery_type: item.batteryType,
+          warranty: item.warranty,
+          free_shipping: item.freeShipping || false,
+          in_stock: item.inStock ?? true,
+          stock_quantity: item.stockQuantity || 0,
           discount_price: item.discountPrice || null,
           discount_start_date: item.discountStartDate || null,
           discount_end_date: item.discountEndDate || null,
@@ -96,50 +112,23 @@ export const useMenu = () => {
         .select()
         .single();
 
-      if (itemError) throw itemError;
-
-      // Insert variations if any
-      if (item.variations && item.variations.length > 0) {
-        const { error: variationsError } = await supabase
-          .from('variations')
-          .insert(
-            item.variations.map(v => ({
-              menu_item_id: menuItem.id,
-              name: v.name,
-              price: v.price
-            }))
-          );
-
-        if (variationsError) throw variationsError;
+      if (itemError) {
+        console.error('❌ [useMenu] Error inserting battery product:', itemError);
+        throw itemError;
       }
 
-      // Insert add-ons if any
-      if (item.addOns && item.addOns.length > 0) {
-        const { error: addOnsError } = await supabase
-          .from('add_ons')
-          .insert(
-            item.addOns.map(a => ({
-              menu_item_id: menuItem.id,
-              name: a.name,
-              price: a.price,
-              category: a.category
-            }))
-          );
-
-        if (addOnsError) throw addOnsError;
-      }
-
+      console.log('✅ [useMenu] Successfully added battery product:', menuItem);
       await fetchMenuItems();
       return menuItem;
     } catch (err) {
-      console.error('Error adding menu item:', err);
+      console.error('❌ [useMenu] Error adding battery product:', err);
       throw err;
     }
   };
 
-  const updateMenuItem = async (id: string, updates: Partial<MenuItem>) => {
+  const updateMenuItem = async (id: string, updates: Partial<BatteryProduct>) => {
     try {
-      // Update menu item
+      // Update battery product
       const { error: itemError } = await supabase
         .from('menu_items')
         .update({
@@ -150,6 +139,17 @@ export const useMenu = () => {
           popular: updates.popular,
           available: updates.available,
           image_url: updates.image || null,
+          voltage: updates.voltage,
+          capacity: updates.capacity,
+          cca: updates.cca,
+          dimensions: updates.dimensions,
+          weight: updates.weight,
+          terminal_type: updates.terminalType,
+          battery_type: updates.batteryType,
+          warranty: updates.warranty,
+          free_shipping: updates.freeShipping,
+          in_stock: updates.inStock,
+          stock_quantity: updates.stockQuantity,
           discount_price: updates.discountPrice || null,
           discount_start_date: updates.discountStartDate || null,
           discount_end_date: updates.discountEndDate || null,
@@ -159,44 +159,9 @@ export const useMenu = () => {
 
       if (itemError) throw itemError;
 
-      // Delete existing variations and add-ons
-      await supabase.from('variations').delete().eq('menu_item_id', id);
-      await supabase.from('add_ons').delete().eq('menu_item_id', id);
-
-      // Insert new variations
-      if (updates.variations && updates.variations.length > 0) {
-        const { error: variationsError } = await supabase
-          .from('variations')
-          .insert(
-            updates.variations.map(v => ({
-              menu_item_id: id,
-              name: v.name,
-              price: v.price
-            }))
-          );
-
-        if (variationsError) throw variationsError;
-      }
-
-      // Insert new add-ons
-      if (updates.addOns && updates.addOns.length > 0) {
-        const { error: addOnsError } = await supabase
-          .from('add_ons')
-          .insert(
-            updates.addOns.map(a => ({
-              menu_item_id: id,
-              name: a.name,
-              price: a.price,
-              category: a.category
-            }))
-          );
-
-        if (addOnsError) throw addOnsError;
-      }
-
       await fetchMenuItems();
     } catch (err) {
-      console.error('Error updating menu item:', err);
+      console.error('Error updating battery product:', err);
       throw err;
     }
   };
