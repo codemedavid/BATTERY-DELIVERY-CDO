@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, Plus, Minus, ArrowLeft, Battery, Truck, Shield, Zap } from 'lucide-react';
+import { Plus, Minus, ArrowLeft, Battery, Truck, Shield, Zap } from 'lucide-react';
 import { CartItem } from '../types';
 
 interface CartProps {
