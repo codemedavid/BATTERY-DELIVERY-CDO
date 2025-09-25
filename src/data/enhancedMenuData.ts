@@ -7,17 +7,17 @@ export const deliveryAreas: DeliveryArea[] = [
     name: 'Cagayan de Oro City',
     code: 'CDO',
     isFreeDelivery: true,
-    deliveryTime: 'Same Day',
-    coverage: ['Downtown', 'Uptown', 'Carmen', 'Kauswagan', 'Lapasan', 'Gusa', 'Balulang', 'Macasandig']
+    deliveryTime: '30 minutes',
+    coverage: ['Downtown', 'Uptown', 'Carmen', 'Kauswagan', 'Lapasan', 'Gusa', 'Balulang', 'Macasandig', 'Nazareth', 'Indahag', 'Bulua', 'Consolacion']
   },
   {
     id: 'misor',
     name: 'Misamis Oriental',
     code: 'MisOr',
     isFreeDelivery: false,
-    deliveryTime: 'Next Day',
+    deliveryTime: '1-4 hours (Same Day)',
     deliveryFee: 200,
-    coverage: ['El Salvador', 'Opol', 'Tagoloan', 'Villanueva', 'Jasaan', 'Claveria', 'Balingasag', 'Binuangan']
+    coverage: ['El Salvador', 'Opol', 'Tagoloan', 'Villanueva', 'Jasaan', 'Claveria', 'Balingasag', 'Binuangan', 'Manticao', 'Naawan', 'Libertad', 'Sugbongcogon']
   },
   {
     id: 'dito',

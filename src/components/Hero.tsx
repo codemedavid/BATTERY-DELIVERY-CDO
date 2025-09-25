@@ -76,13 +76,13 @@ const Hero: React.FC<HeroProps> = ({ onBatteryFinderClick, onShopClick }) => {
               <div className="text-2xl mb-2">🏙️</div>
               <h4 className="font-semibold text-green-800">CDO City</h4>
               <p className="text-sm text-green-600 font-bold">FREE DELIVERY</p>
-              <p className="text-xs text-green-500">Same Day</p>
+              <p className="text-xs text-green-500">30 minutes</p>
             </div>
             <div className="text-center p-4 bg-blue-100 rounded-xl">
               <div className="text-2xl mb-2">🏘️</div>
               <h4 className="font-semibold text-blue-800">MisOr</h4>
               <p className="text-sm text-blue-600">+₱200 Delivery</p>
-              <p className="text-xs text-blue-500">Next Day</p>
+              <p className="text-xs text-blue-500">1-4 hours (Same Day)</p>
             </div>
             <div className="text-center p-4 bg-purple-100 rounded-xl">
               <div className="text-2xl mb-2">🌄</div>
