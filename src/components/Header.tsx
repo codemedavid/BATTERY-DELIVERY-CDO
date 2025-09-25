@@ -6,15 +6,19 @@ interface HeaderProps {
   cartItemsCount: number;
   onCartClick: () => void;
   onMenuClick: () => void;
+  onBatteryFinderClick?: () => void;
+  onServicesClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClick }) => {
+const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClick, onBatteryFinderClick, onServicesClick }) => {
   const { loading } = useSiteSettings();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
-    { name: 'Home', href: '#', icon: null },
-    { name: 'Shop', href: '#', icon: null }
+    { name: 'Home', href: '#', icon: null, onClick: onMenuClick },
+    { name: 'Shop', href: '#', icon: null, onClick: onMenuClick },
+    { name: 'Battery Finder', href: '#', icon: null, onClick: onBatteryFinderClick },
+    { name: 'Services', href: '#', icon: null, onClick: onServicesClick }
   ];
 
   const vehicleTypes = [
@@ -32,9 +36,9 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
           <div className="flex items-center space-x-6">
             <span className="flex items-center space-x-1">
               <Zap className="h-4 w-4" />
-              <span>Fast Shipping</span>
+              <span>Fast Delivery</span>
             </span>
-            <span>2-Year Warranty</span>
+            <span>6 months - 1 year Warranty</span>
           </div>
           <div className="hidden md:flex items-center space-x-4">
             <span>Secure Payments</span>
@@ -83,14 +87,14 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-6">
               {navigationItems.map((item) => (
-                <a
+                <button
                   key={item.name}
-                  href={item.href}
+                  onClick={item.onClick}
                   className="text-battery-text hover:text-battery-primary font-medium transition-colors duration-200 flex items-center space-x-1"
                 >
                   {item.icon && React.createElement(item.icon, { className: "h-4 w-4" })}
                   <span>{item.name}</span>
-                </a>
+                </button>
               ))}
             </nav>
 

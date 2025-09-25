@@ -1,7 +1,8 @@
 import React from 'react';
-import { BatteryProduct, CartItem } from '../types';
+import { BatteryProduct, CartItem, DeliveryArea } from '../types';
 import { useCategories } from '../hooks/useCategories';
 import BatteryProductCard from './BatteryProductCard';
+import AdvancedSearch from './AdvancedSearch';
 import MobileNav from './MobileNav';
 import { Battery, Zap, Filter, SortAsc } from 'lucide-react';
 
@@ -20,13 +21,15 @@ interface MenuProps {
   addToCart: (item: BatteryProduct, quantity?: number) => void;
   cartItems: CartItem[];
   updateQuantity: (id: string, quantity: number) => void;
+  deliveryAreas: DeliveryArea[];
 }
 
-const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuantity }) => {
+const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuantity, deliveryAreas }) => {
   const { categories } = useCategories();
   const [activeCategory, setActiveCategory] = React.useState('all');
   const [sortBy, setSortBy] = React.useState('name');
   const [showFilters, setShowFilters] = React.useState(false);
+  const [filteredProducts, setFilteredProducts] = React.useState<BatteryProduct[]>(menuItems);
 
   // Preload images when menu items change
   React.useEffect(() => {
@@ -50,28 +53,10 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
 
   // Sort products
   const sortedProducts = React.useMemo(() => {
-    console.log('🔍 [Menu] Filtering items:');
-    console.log('   Active category:', activeCategory);
-    console.log('   All menu items:', menuItems.map(item => ({ name: item.name, category: item.category })));
+    console.log('🔍 [Menu] Sorting filtered products:');
+    console.log('   Filtered products:', filteredProducts.map(item => ({ name: item.name, category: item.category })));
     
-    const filtered = activeCategory === 'all' 
-      ? menuItems 
-      : menuItems.filter(item => {
-        // Handle category mismatches - if exact match not found, show all items
-        const exactMatch = item.category === activeCategory;
-        const categoryExists = categories.some(cat => cat.id === activeCategory);
-        
-        if (!categoryExists) {
-          console.log('⚠️ [Menu] Category not found in database, showing all items');
-          return true;
-        }
-        
-        return exactMatch;
-      });
-    
-    console.log('   Filtered items:', filtered.map(item => ({ name: item.name, category: item.category })));
-    
-    return [...filtered].sort((a, b) => {
+    return [...filteredProducts].sort((a, b) => {
       switch (sortBy) {
         case 'price-low':
           return (a.effectivePrice || a.basePrice) - (b.effectivePrice || b.basePrice);
@@ -85,7 +70,7 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
           return 0;
       }
     });
-  }, [menuItems, activeCategory, sortBy]);
+  }, [filteredProducts, sortBy]);
 
   const getCategoryIcon = (categoryId: string) => {
     const category = categories.find(cat => cat.id === categoryId);
@@ -113,16 +98,16 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
           </p>
         </div>
 
-        {/* Enhanced Filters and Sort */}
+        {/* Advanced Search and Filters */}
+        <AdvancedSearch 
+          products={menuItems}
+          onFilteredProducts={setFilteredProducts}
+          deliveryAreas={deliveryAreas}
+        />
+
+        {/* Sort Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 px-4 py-2.5 bg-white text-gray-700 rounded-xl hover:bg-gray-50 hover:text-battery-primary transition-all duration-200 border border-gray-200 hover:border-battery-primary/30 shadow-sm"
-            >
-              <Filter className="h-4 w-4" />
-              <span className="font-medium">Filters</span>
-            </button>
             <div className="flex items-center space-x-2">
               <SortAsc className="h-4 w-4 text-gray-500" />
               <select
@@ -139,7 +124,7 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
           </div>
           
           <div className="text-sm text-gray-600 font-medium">
-            Showing {sortedProducts.length} product{sortedProducts.length !== 1 ? 's' : ''}
+            Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
           </div>
         </div>
 

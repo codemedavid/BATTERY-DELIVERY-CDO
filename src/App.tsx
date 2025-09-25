@@ -10,14 +10,18 @@ import Checkout from './components/Checkout';
 import FloatingCartButton from './components/FloatingCartButton';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
+import BatteryFinder from './components/BatteryFinder';
+import Services from './components/Services';
 import { useMenu } from './hooks/useMenu';
-import { BatteryProduct } from './types';
+import { BatteryProduct, ServiceBooking } from './types';
+import { deliveryAreas } from './data/enhancedMenuData';
 
 function MainApp() {
   const cart = useCart();
   const { menuItems } = useMenu();
-  const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout'>('menu');
+  const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout' | 'battery-finder' | 'services'>('menu');
   const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
+  const [, setCompatibleProducts] = React.useState<BatteryProduct[]>([]);
 
   // Debug logging
   React.useEffect(() => {
@@ -25,8 +29,14 @@ function MainApp() {
     console.log('🏪 [App] Menu items count:', menuItems.length);
   }, [menuItems]);
 
-  const handleViewChange = (view: 'menu' | 'cart' | 'checkout') => {
+  const handleViewChange = (view: 'menu' | 'cart' | 'checkout' | 'battery-finder' | 'services') => {
     setCurrentView(view);
+  };
+
+  const handleServiceBooked = (booking: ServiceBooking) => {
+    console.log('📋 [App] Service booked:', booking);
+    // Here you would typically send the booking to your backend
+    // For now, we'll just log it
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -44,11 +54,16 @@ function MainApp() {
         cartItemsCount={cart.getTotalItems()}
         onCartClick={() => handleViewChange('cart')}
         onMenuClick={() => handleViewChange('menu')}
+        onBatteryFinderClick={() => handleViewChange('battery-finder')}
+        onServicesClick={() => handleViewChange('services')}
       />
       
       {currentView === 'menu' && (
         <>
-          <Hero />
+          <Hero 
+            onBatteryFinderClick={() => handleViewChange('battery-finder')} 
+            onShopClick={() => handleViewChange('menu')}
+          />
           <SubNav selectedCategory={selectedCategory} onCategoryClick={handleCategoryClick} />
         </>
       )}
@@ -59,6 +74,22 @@ function MainApp() {
           addToCart={cart.addToCart}
           cartItems={cart.cartItems}
           updateQuantity={cart.updateQuantity}
+          deliveryAreas={deliveryAreas}
+        />
+      )}
+
+      {currentView === 'battery-finder' && (
+        <BatteryFinder 
+          products={menuItems}
+          onCompatibleProducts={setCompatibleProducts}
+          deliveryAreas={deliveryAreas}
+        />
+      )}
+
+      {currentView === 'services' && (
+        <Services 
+          deliveryAreas={deliveryAreas}
+          onServiceBooked={handleServiceBooked}
         />
       )}
       

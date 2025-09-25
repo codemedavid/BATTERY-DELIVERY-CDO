@@ -171,7 +171,7 @@ const Cart: React.FC<CartProps> = ({
               </div>
               
               <div className="flex justify-between text-battery-text-light">
-                <span>Shipping</span>
+                <span>Delivery</span>
                 <span className="text-green-600 font-semibold">FREE</span>
               </div>
               
@@ -192,11 +192,11 @@ const Cart: React.FC<CartProps> = ({
             <div className="space-y-3 mb-6">
               <div className="flex items-center space-x-2 text-sm text-battery-text-light">
                 <Truck className="h-4 w-4 text-green-600" />
-                <span>Free shipping on orders over ₱2,500</span>
+                <span>Free delivery on orders over ₱2,500</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-battery-text-light">
                 <Shield className="h-4 w-4 text-battery-accent" />
-                <span>2-year warranty included</span>
+                <span>6 months - 1 year warranty included</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-battery-text-light">
                 <Zap className="h-4 w-4 text-battery-primary" />

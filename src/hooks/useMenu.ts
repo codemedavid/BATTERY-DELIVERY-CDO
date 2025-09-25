@@ -64,7 +64,15 @@ export const useMenu = () => {
           discountActive: item.discount_active || false,
           effectivePrice,
           isOnDiscount: isDiscountActive,
-          compatibilities: [] // Will be populated from a separate table if needed
+          compatibilities: [], // Will be populated from a separate table if needed
+          brand: item.brand || undefined,
+          images: item.images || undefined,
+          rating: item.rating || undefined,
+          reviewCount: item.review_count || undefined,
+          warrantyType: item.warranty_type || 'standard',
+          deliveryAreas: item.delivery_areas || [],
+          installationRequired: item.installation_required || false,
+          installationFee: item.installation_fee || undefined
         };
       }) || [];
 

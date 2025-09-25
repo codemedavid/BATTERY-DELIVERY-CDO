@@ -1,10 +1,15 @@
 import React from 'react';
 import { Battery, Zap, Shield, Clock, ArrowRight } from 'lucide-react';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onBatteryFinderClick?: () => void;
+  onShopClick?: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onBatteryFinderClick, onShopClick }) => {
   const features = [
-    { icon: Shield, text: "2-Year Warranty" },
-    { icon: Clock, text: "Fast Shipping" },
+    { icon: Shield, text: "6 months - 1 year Warranty" },
+    { icon: Clock, text: "Fast Delivery" },
     { icon: Zap, text: "Premium Quality" }
   ];
 
@@ -29,17 +34,23 @@ const Hero: React.FC = () => {
             <span className="block text-battery-primary mt-2">Keep You Moving</span>
           </h1>
           
-          <p className="text-xl text-battery-text-light mb-8 max-w-2xl mx-auto animate-slide-up">
-            ⚡ "Fast & Reliable Car Battery Delivery & Installation in CDO 🚗🔋 | 24/7 Service | Dead Battery? We're just a call away!"
-          </p>
+        <p className="text-xl text-battery-text-light mb-8 max-w-3xl mx-auto animate-slide-up">
+          ⚡ "Fast & Reliable Car Battery Delivery & Installation in CDO, MisOr & Dito Areas 🚗🔋 | 24/7 Service | Dead Battery? We're just a call away!"
+        </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <button className="btn-industrial flex items-center justify-center space-x-2 group">
-              <span>Find Your Battery</span>
+            <button 
+              onClick={onBatteryFinderClick}
+              className="btn-industrial flex items-center justify-center space-x-2 group"
+            >
+              <span>Battery Finder</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="btn-industrial-secondary">
+            <button 
+              onClick={onShopClick}
+              className="btn-industrial-secondary"
+            >
               Shop All Batteries
             </button>
           </div>
@@ -52,6 +63,33 @@ const Hero: React.FC = () => {
                 <span className="font-medium">{feature.text}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Delivery Areas */}
+      <div className="max-w-7xl mx-auto mt-16">
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
+          <h3 className="text-lg font-semibold text-battery-text mb-4 text-center">We Cater to These Areas</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-green-100 rounded-xl">
+              <div className="text-2xl mb-2">🏙️</div>
+              <h4 className="font-semibold text-green-800">CDO City</h4>
+              <p className="text-sm text-green-600 font-bold">FREE DELIVERY</p>
+              <p className="text-xs text-green-500">Same Day</p>
+            </div>
+            <div className="text-center p-4 bg-blue-100 rounded-xl">
+              <div className="text-2xl mb-2">🏘️</div>
+              <h4 className="font-semibold text-blue-800">MisOr</h4>
+              <p className="text-sm text-blue-600">+₱200 Delivery</p>
+              <p className="text-xs text-blue-500">Next Day</p>
+            </div>
+            <div className="text-center p-4 bg-purple-100 rounded-xl">
+              <div className="text-2xl mb-2">🌄</div>
+              <h4 className="font-semibold text-purple-800">Dito Areas</h4>
+              <p className="text-sm text-purple-600">+₱300 Delivery</p>
+              <p className="text-xs text-purple-500">2-3 Days</p>
+            </div>
           </div>
         </div>
       </div>

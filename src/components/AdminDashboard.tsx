@@ -477,7 +477,7 @@ const AdminDashboard: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, freeShipping: e.target.checked })}
                     className="rounded border-gray-300 text-battery-primary focus:ring-battery-primary"
                   />
-                  <span className="text-sm font-medium text-battery-text">Free Shipping</span>
+                  <span className="text-sm font-medium text-battery-text">Free Delivery</span>
                 </label>
               </div>
 

@@ -113,7 +113,7 @@ const BatteryProductCard: React.FC<BatteryProductCardProps> = ({
             )}
             {product.freeShipping && (
               <div className="bg-gradient-to-r from-emerald-500 via-green-600 to-teal-600 text-white text-xs font-bold px-4 py-2 rounded-2xl shadow-xl backdrop-blur-md transform hover:scale-105 transition-all duration-300">
-                🚚 FREE SHIPPING
+                🚚 FREE DELIVERY
               </div>
             )}
           </div>
@@ -201,7 +201,7 @@ const BatteryProductCard: React.FC<BatteryProductCardProps> = ({
               </div>
             )}
             
-            {/* Enhanced Warranty and Shipping Info - Compact */}
+            {/* Enhanced Warranty and Delivery Info - Compact */}
             <div className="flex items-center space-x-4 mt-3 text-xs">
               <span className="flex items-center space-x-1.5 bg-blue-50 px-2 py-1.5 rounded-lg">
                 <Shield className="h-3 w-3 text-blue-600" />
@@ -210,7 +210,7 @@ const BatteryProductCard: React.FC<BatteryProductCardProps> = ({
               {product.freeShipping && (
                 <span className="flex items-center space-x-1.5 bg-emerald-50 px-2 py-1.5 rounded-lg">
                   <span className="text-sm">🚚</span>
-                  <span className="text-emerald-700 font-medium">Free Shipping</span>
+                  <span className="text-emerald-700 font-medium">Free Delivery</span>
                 </span>
               )}
             </div>

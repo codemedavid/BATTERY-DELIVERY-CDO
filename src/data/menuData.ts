@@ -1,4 +1,34 @@
-import { BatteryProduct } from '../types';
+import { BatteryProduct, DeliveryArea } from '../types';
+
+// Sample delivery areas
+export const deliveryAreas: DeliveryArea[] = [
+  {
+    id: 'cdo',
+    name: 'Cagayan de Oro City',
+    code: 'CDO',
+    isFreeDelivery: true,
+    deliveryTime: 'Same Day',
+    coverage: ['Downtown', 'Uptown', 'Carmen', 'Kauswagan', 'Lapasan', 'Gusa', 'Balulang', 'Macasandig']
+  },
+  {
+    id: 'misor',
+    name: 'Misamis Oriental',
+    code: 'MisOr',
+    isFreeDelivery: false,
+    deliveryTime: 'Next Day',
+    deliveryFee: 200,
+    coverage: ['El Salvador', 'Opol', 'Tagoloan', 'Villanueva', 'Jasaan', 'Claveria', 'Balingasag', 'Binuangan']
+  },
+  {
+    id: 'dito',
+    name: 'Dito Areas',
+    code: 'Dito',
+    isFreeDelivery: false,
+    deliveryTime: '2-3 Days',
+    deliveryFee: 300,
+    coverage: ['Iligan City', 'Cagayan de Oro Outskirts', 'Bukidnon', 'Lanao del Norte']
+  }
+];
 
 export const menuData: BatteryProduct[] = [
   // Car Batteries

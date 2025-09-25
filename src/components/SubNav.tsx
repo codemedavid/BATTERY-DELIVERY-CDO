@@ -82,7 +82,7 @@ const SubNav: React.FC<SubNavProps> = ({ selectedCategory, onCategoryClick }) =>
           <div className="hidden lg:flex items-center space-x-2">
             <span className="text-sm text-battery-text-light mr-2">Quick Filters:</span>
             <button className="px-3 py-1 text-xs bg-battery-accent/10 text-battery-accent rounded-full hover:bg-battery-accent hover:text-white transition-colors">
-              Free Shipping
+              Free Delivery
             </button>
             <button className="px-3 py-1 text-xs bg-battery-accent/10 text-battery-accent rounded-full hover:bg-battery-accent hover:text-white transition-colors">
               On Sale
