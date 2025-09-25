@@ -110,7 +110,7 @@ const Hero: React.FC<HeroProps> = ({ onBatteryFinderClick, onShopClick }) => {
             <div className="text-battery-text-light text-sm">Expert Support</div>
           </div>
           <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="text-3xl font-bold text-battery-primary mb-2">2-Day</div>
+            <div className="text-3xl font-bold text-battery-primary mb-2">30 Mins</div>
             <div className="text-battery-text-light text-sm">Fast Delivery</div>
           </div>
         </div>
