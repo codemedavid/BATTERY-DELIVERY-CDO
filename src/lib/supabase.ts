@@ -198,6 +198,53 @@ export type Database = {
           updated_at?: string;
         };
       };
+      banners: {
+        Row: {
+          id: string;
+          title: string;
+          subtitle: string | null;
+          description: string | null;
+          button_text: string;
+          button_link: string;
+          background_image_url: string | null;
+          background_color: string;
+          text_color: string;
+          is_active: boolean;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          subtitle?: string | null;
+          description?: string | null;
+          button_text?: string;
+          button_link?: string;
+          background_image_url?: string | null;
+          background_color?: string;
+          text_color?: string;
+          is_active?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          subtitle?: string | null;
+          description?: string | null;
+          button_text?: string;
+          button_link?: string;
+          background_image_url?: string | null;
+          background_color?: string;
+          text_color?: string;
+          is_active?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
   };
 };

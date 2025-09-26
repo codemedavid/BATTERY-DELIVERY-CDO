@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 import { useCart } from './hooks/useCart';
 import Header from './components/Header';
-import Hero from './components/Hero';
+import HeroSlider from './components/HeroSlider';
 import SubNav from './components/SubNav';
 import Menu from './components/Menu';
 import Cart from './components/Cart';
@@ -10,18 +11,17 @@ import Checkout from './components/Checkout';
 import FloatingCartButton from './components/FloatingCartButton';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
-import BatteryFinder from './components/BatteryFinder';
+import ProtectedRoute from './components/ProtectedRoute';
 import Services from './components/Services';
 import { useMenu } from './hooks/useMenu';
-import { BatteryProduct, ServiceBooking } from './types';
+import { ServiceBooking } from './types';
 import { deliveryAreas } from './data/enhancedMenuData';
 
 function MainApp() {
   const cart = useCart();
   const { menuItems } = useMenu();
-  const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout' | 'battery-finder' | 'services'>('menu');
+  const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout' | 'services'>('menu');
   const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
-  const [, setCompatibleProducts] = React.useState<BatteryProduct[]>([]);
 
   // Debug logging
   React.useEffect(() => {
@@ -29,7 +29,7 @@ function MainApp() {
     console.log('🏪 [App] Menu items count:', menuItems.length);
   }, [menuItems]);
 
-  const handleViewChange = (view: 'menu' | 'cart' | 'checkout' | 'battery-finder' | 'services') => {
+  const handleViewChange = (view: 'menu' | 'cart' | 'checkout' | 'services') => {
     setCurrentView(view);
   };
 
@@ -54,15 +54,14 @@ function MainApp() {
         cartItemsCount={cart.getTotalItems()}
         onCartClick={() => handleViewChange('cart')}
         onMenuClick={() => handleViewChange('menu')}
-        onBatteryFinderClick={() => handleViewChange('battery-finder')}
         onServicesClick={() => handleViewChange('services')}
       />
       
       {currentView === 'menu' && (
         <>
-          <Hero 
-            onBatteryFinderClick={() => handleViewChange('battery-finder')} 
+          <HeroSlider 
             onShopClick={() => handleViewChange('menu')}
+            onServicesClick={() => handleViewChange('services')}
           />
           <SubNav selectedCategory={selectedCategory} onCategoryClick={handleCategoryClick} />
         </>
@@ -78,13 +77,6 @@ function MainApp() {
         />
       )}
 
-      {currentView === 'battery-finder' && (
-        <BatteryFinder 
-          products={menuItems}
-          onCompatibleProducts={setCompatibleProducts}
-          deliveryAreas={deliveryAreas}
-        />
-      )}
 
       {currentView === 'services' && (
         <Services 
@@ -127,12 +119,21 @@ function MainApp() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainApp />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainApp />} />
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

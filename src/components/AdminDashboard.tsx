@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Save, X, ArrowLeft, Battery, TrendingUp, Package, Users, FolderOpen, CreditCard, Settings } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, ArrowLeft, Battery, TrendingUp, Package, Users, FolderOpen, CreditCard, Settings, LogOut, Image } from 'lucide-react';
 import { BatteryProduct } from '../types';
 import { useMenu } from '../hooks/useMenu';
 import { useCategories } from '../hooks/useCategories';
+import { useAuth } from '../contexts/AuthContext';
 import ImageUpload from './ImageUpload';
 import CategoryManager from './CategoryManager';
 import PaymentMethodManager from './PaymentMethodManager';
 import SiteSettingsManager from './SiteSettingsManager';
+import BannerManager from './BannerManager';
 
 const AdminDashboard: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('beracah_admin_auth') === 'true';
-  });
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const { signOut } = useAuth();
   const { menuItems, loading, addMenuItem, updateMenuItem, deleteMenuItem } = useMenu();
   const { categories } = useCategories();
-  const [currentView, setCurrentView] = useState<'dashboard' | 'items' | 'add' | 'edit' | 'categories' | 'payments' | 'settings'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'items' | 'add' | 'edit' | 'categories' | 'payments' | 'settings' | 'banners'>('dashboard');
   const [editingItem, setEditingItem] = useState<BatteryProduct | null>(null);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -201,68 +199,10 @@ const AdminDashboard: React.FC = () => {
     count: menuItems.filter(item => item.category === cat.id).length
   }));
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === 'battery@Admin!2025') {
-      setIsAuthenticated(true);
-      localStorage.setItem('beracah_admin_auth', 'true');
-      setLoginError('');
-    } else {
-      setLoginError('Invalid password');
-    }
+  const handleLogout = async () => {
+    await signOut();
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('beracah_admin_auth');
-    setPassword('');
-    setCurrentView('dashboard');
-  };
-
-  // Login Screen
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-battery-background flex items-center justify-center">
-        <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="mx-auto w-16 h-16 rounded-lg overflow-hidden mb-4">
-              <img 
-                src="/logo.jpg" 
-                alt="BATTERY DELIVERY CDO Logo" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <h1 className="text-2xl font-poppins font-semibold text-battery-text">BATTERY DELIVERY CDO Admin</h1>
-            <p className="text-battery-text-light mt-2">Enter password to access the admin dashboard</p>
-          </div>
-          
-          <form onSubmit={handleLogin}>
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-battery-text mb-2">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-battery-primary focus:border-transparent"
-                placeholder="Enter admin password"
-                required
-              />
-              {loginError && (
-                <p className="text-red-500 text-sm mt-2">{loginError}</p>
-              )}
-            </div>
-            
-            <button
-              type="submit"
-              className="w-full bg-battery-primary text-white py-3 rounded-lg hover:bg-battery-primary-dark transition-colors duration-200 font-medium"
-            >
-              Access Dashboard
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
@@ -935,6 +875,11 @@ const AdminDashboard: React.FC = () => {
     );
   }
 
+  // Banner Management View
+  if (currentView === 'banners') {
+    return <BannerManager onBack={() => setCurrentView('dashboard')} />;
+  }
+
   // Dashboard View
   return (
     <div className="min-h-screen bg-battery-background">
@@ -960,9 +905,10 @@ const AdminDashboard: React.FC = () => {
               </a>
               <button
                 onClick={handleLogout}
-                className="text-battery-text-light hover:text-battery-text transition-colors duration-200"
+                className="flex items-center space-x-2 text-battery-text-light hover:text-battery-text transition-colors duration-200"
               >
-                Logout
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -1053,6 +999,13 @@ const AdminDashboard: React.FC = () => {
               >
                 <CreditCard className="h-5 w-5 text-battery-text-light" />
                 <span className="font-medium text-battery-text">Payment Methods</span>
+              </button>
+              <button
+                onClick={() => setCurrentView('banners')}
+                className="w-full flex items-center space-x-3 p-3 text-left hover:bg-battery-background rounded-lg transition-colors duration-200"
+              >
+                <Image className="h-5 w-5 text-battery-text-light" />
+                <span className="font-medium text-battery-text">Manage Banners</span>
               </button>
               <button
                 onClick={() => setCurrentView('settings')}

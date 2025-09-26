@@ -2,11 +2,11 @@ import React from 'react';
 import { Battery, Zap, Shield, Clock, ArrowRight } from 'lucide-react';
 
 interface HeroProps {
-  onBatteryFinderClick?: () => void;
   onShopClick?: () => void;
+  onServicesClick?: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onBatteryFinderClick, onShopClick }) => {
+const Hero: React.FC<HeroProps> = ({ onShopClick, onServicesClick }) => {
   const features = [
     { icon: Shield, text: "6 months - 1 year Warranty" },
     { icon: Clock, text: "Fast Delivery" },
@@ -41,17 +41,17 @@ const Hero: React.FC<HeroProps> = ({ onBatteryFinderClick, onShopClick }) => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <button 
-              onClick={onBatteryFinderClick}
+              onClick={onShopClick}
               className="btn-industrial flex items-center justify-center space-x-2 group"
             >
-              <span>Battery Finder</span>
+              <span>Shop All Batteries</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button 
-              onClick={onShopClick}
+              onClick={onServicesClick}
               className="btn-industrial-secondary"
             >
-              Shop All Batteries
+              Our Services
             </button>
           </div>
 

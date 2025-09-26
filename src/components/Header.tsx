@@ -6,18 +6,16 @@ interface HeaderProps {
   cartItemsCount: number;
   onCartClick: () => void;
   onMenuClick: () => void;
-  onBatteryFinderClick?: () => void;
   onServicesClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClick, onBatteryFinderClick, onServicesClick }) => {
+const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClick, onServicesClick }) => {
   const { loading } = useSiteSettings();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
     { name: 'Home', href: '#', icon: null, onClick: onMenuClick },
     { name: 'Shop', href: '#', icon: null, onClick: onMenuClick },
-    { name: 'Battery Finder', href: '#', icon: null, onClick: onBatteryFinderClick },
     { name: 'Services', href: '#', icon: null, onClick: onServicesClick }
   ];
 

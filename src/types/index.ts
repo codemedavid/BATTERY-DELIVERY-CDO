@@ -209,3 +209,20 @@ export interface TrackingUpdate {
   location?: string;
   description: string;
 }
+
+// Banner Types for Hero Slider
+export interface Banner {
+  id: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  button_text: string;
+  button_link: string;
+  background_image_url?: string;
+  background_color: string;
+  text_color: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
