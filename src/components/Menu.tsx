@@ -4,7 +4,7 @@ import { useCategories } from '../hooks/useCategories';
 import BatteryProductCard from './BatteryProductCard';
 import AdvancedSearch from './AdvancedSearch';
 import MobileNav from './MobileNav';
-import { Battery, Zap, Filter, SortAsc } from 'lucide-react';
+import { Battery, SortAsc } from 'lucide-react';
 
 // Preload images for better performance
 const preloadImages = (items: BatteryProduct[]) => {
@@ -28,7 +28,6 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
   const { categories } = useCategories();
   const [activeCategory, setActiveCategory] = React.useState('all');
   const [sortBy, setSortBy] = React.useState('name');
-  const [showFilters, setShowFilters] = React.useState(false);
   const [filteredProducts, setFilteredProducts] = React.useState<BatteryProduct[]>(menuItems);
 
   // Preload images when menu items change
@@ -36,6 +35,11 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
     if (menuItems.length > 0) {
       preloadImages(menuItems);
     }
+  }, [menuItems]);
+
+  // Update filtered products when menu items change
+  React.useEffect(() => {
+    setFilteredProducts(menuItems);
   }, [menuItems]);
 
   // Debug logging

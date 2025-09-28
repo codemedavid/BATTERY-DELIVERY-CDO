@@ -16,16 +16,16 @@ export const deliveryAreas: DeliveryArea[] = [
     code: 'MisOr',
     isFreeDelivery: false,
     deliveryTime: 'Next Day',
-    deliveryFee: 200,
+    deliveryFee: 500,
     coverage: ['El Salvador', 'Opol', 'Tagoloan', 'Villanueva', 'Jasaan', 'Claveria', 'Balingasag', 'Binuangan']
   },
   {
     id: 'dito',
-    name: 'Dito Areas',
+    name: 'Other Areas',
     code: 'Dito',
     isFreeDelivery: false,
-    deliveryTime: '2-3 Days',
-    deliveryFee: 300,
+    deliveryTime: '1-2 Days',
+    deliveryFee: 1000,
     coverage: ['Iligan City', 'Cagayan de Oro Outskirts', 'Bukidnon', 'Lanao del Norte']
   }
 ];

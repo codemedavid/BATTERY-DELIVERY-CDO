@@ -35,7 +35,7 @@ const Hero: React.FC<HeroProps> = ({ onShopClick, onServicesClick }) => {
           </h1>
           
         <p className="text-xl text-battery-text-light mb-8 max-w-3xl mx-auto animate-slide-up">
-          ⚡ "Fast & Reliable Car Battery Delivery & Installation in CDO, MisOr & Dito Areas 🚗🔋 | 24/7 Service | Dead Battery? We're just a call away!"
+          ⚡ "Fast & Reliable Car Battery Delivery & Installation in CDO, MisOr & Other Areas 🚗🔋 | 24/7 Service | Dead Battery? We're just a call away!"
         </p>
 
           {/* CTA Buttons */}
@@ -81,14 +81,14 @@ const Hero: React.FC<HeroProps> = ({ onShopClick, onServicesClick }) => {
             <div className="text-center p-4 bg-blue-100 rounded-xl">
               <div className="text-2xl mb-2">🏘️</div>
               <h4 className="font-semibold text-blue-800">MisOr</h4>
-              <p className="text-sm text-blue-600">+₱200 Delivery</p>
+              <p className="text-sm text-blue-600">+₱500-1k</p>
               <p className="text-xs text-blue-500">1-4 hours (Same Day)</p>
             </div>
             <div className="text-center p-4 bg-purple-100 rounded-xl">
               <div className="text-2xl mb-2">🌄</div>
-              <h4 className="font-semibold text-purple-800">Dito Areas</h4>
-              <p className="text-sm text-purple-600">+₱300 Delivery</p>
-              <p className="text-xs text-purple-500">2-3 Days</p>
+              <h4 className="font-semibold text-purple-800">Other Areas</h4>
+              <p className="text-sm text-purple-600">+₱1000 Delivery</p>
+              <p className="text-xs text-purple-500">1-2 Days</p>
             </div>
           </div>
         </div>

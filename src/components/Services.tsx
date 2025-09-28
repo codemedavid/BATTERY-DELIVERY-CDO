@@ -110,7 +110,7 @@ const Services: React.FC<ServicesProps> = ({ deliveryAreas, onServiceBooked }) =
             Our Services
           </h1>
           <p className="text-xl text-battery-text-light max-w-3xl mx-auto">
-            Professional battery services across CDO, MisOr, and Dito areas. 
+            Professional battery services across CDO, MisOr, and Other areas. 
             Fast, reliable, and backed by our 6 months - 1 year warranty guarantee.
           </p>
         </div>
@@ -136,7 +136,7 @@ const Services: React.FC<ServicesProps> = ({ deliveryAreas, onServiceBooked }) =
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-red-500" />
-                <span className="text-battery-text-light">CDO, MisOr, and Dito Areas</span>
+                <span className="text-battery-text-light">CDO, MisOr, and Other Areas</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Zap className="h-5 w-5 text-red-500" />

@@ -21,8 +21,6 @@ function MainApp() {
   const cart = useCart();
   const { menuItems } = useMenu();
   const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout' | 'services'>('menu');
-  const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
-
   // Debug logging
   React.useEffect(() => {
     console.log('🏪 [App] Menu items received:', menuItems);
@@ -39,15 +37,6 @@ function MainApp() {
     // For now, we'll just log it
   };
 
-  const handleCategoryClick = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-  };
-
-  // Filter battery products based on selected category
-  const filteredProducts = selectedCategory === 'all' 
-    ? menuItems 
-    : menuItems.filter(item => item.category === selectedCategory);
-
   return (
     <div className="min-h-screen bg-battery-background font-poppins">
       <Header 
@@ -63,13 +52,13 @@ function MainApp() {
             onShopClick={() => handleViewChange('menu')}
             onServicesClick={() => handleViewChange('services')}
           />
-          <SubNav selectedCategory={selectedCategory} onCategoryClick={handleCategoryClick} />
+          <SubNav selectedCategory="all" onCategoryClick={() => {}} />
         </>
       )}
       
       {currentView === 'menu' && (
         <Menu 
-          menuItems={filteredProducts}
+          menuItems={menuItems}
           addToCart={cart.addToCart}
           cartItems={cart.cartItems}
           updateQuantity={cart.updateQuantity}

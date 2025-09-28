@@ -216,14 +216,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ onShopClick, onServicesClick })
               <div className="text-center p-4 bg-blue-100 rounded-xl">
                 <div className="text-2xl mb-2">🏘️</div>
                 <h4 className="font-semibold text-blue-800">MisOr</h4>
-                <p className="text-sm text-blue-600">+₱200 Delivery</p>
+                <p className="text-sm text-blue-600">+₱500-1k</p>
                 <p className="text-xs text-blue-500">1-4 hours (Same Day)</p>
               </div>
               <div className="text-center p-4 bg-purple-100 rounded-xl">
                 <div className="text-2xl mb-2">🌄</div>
-                <h4 className="font-semibold text-purple-800">Dito Areas</h4>
-                <p className="text-sm text-purple-600">+₱300 Delivery</p>
-                <p className="text-xs text-purple-500">2-3 Days</p>
+                <h4 className="font-semibold text-purple-800">Other Areas</h4>
+                <p className="text-sm text-purple-600">+₱1000 Delivery</p>
+                <p className="text-xs text-purple-500">1-2 Days</p>
               </div>
             </div>
           </div>

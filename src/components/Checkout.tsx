@@ -14,15 +14,15 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
   const [step, setStep] = useState<'details' | 'payment'>('details');
   const [customerName, setCustomerName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
-  const [serviceType, setServiceType] = useState<ServiceType>('dine-in');
+  const [serviceType, setServiceType] = useState<ServiceType>('delivery');
   const [address, setAddress] = useState('');
   const [landmark, setLandmark] = useState('');
   const [pickupTime, setPickupTime] = useState('5-10');
   const [customTime, setCustomTime] = useState('');
-  // Dine-in specific state
-  const [partySize, setPartySize] = useState(1);
-  const [dineInTime, setDineInTime] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('gcash');
+  // Installation specific state
+  const [vehicleInfo, setVehicleInfo] = useState({ make: '', model: '', year: '', engine: '' });
+  const [installationDate, setInstallationDate] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('credit-card');
   const [referenceNumber, setReferenceNumber] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -48,41 +48,29 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
       ? (pickupTime === 'custom' ? customTime : `${pickupTime} minutes`)
       : '';
     
-    const dineInInfo = serviceType === 'dine-in' 
-      ? `👥 Party Size: ${partySize} person${partySize !== 1 ? 's' : ''}\n🕐 Preferred Time: ${new Date(dineInTime).toLocaleString('en-US', { 
+    const installationInfo = serviceType === 'installation' 
+      ? `🚗 Vehicle: ${vehicleInfo.year} ${vehicleInfo.make} ${vehicleInfo.model}${vehicleInfo.engine ? ` (${vehicleInfo.engine})` : ''}\n📅 Installation Date: ${new Date(installationDate).toLocaleString('en-US', { 
           weekday: 'long', 
           year: 'numeric', 
           month: 'long', 
-          day: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit' 
+          day: 'numeric' 
         })}`
       : '';
     
     const orderDetails = `
-🛒 ClickEats ORDER
+🔋 BATTERY DELIVERY CDO ORDER
 
 👤 Customer: ${customerName}
 📞 Contact: ${contactNumber}
 📍 Service: ${serviceType.charAt(0).toUpperCase() + serviceType.slice(1)}
 ${serviceType === 'delivery' ? `🏠 Address: ${address}${landmark ? `\n🗺️ Landmark: ${landmark}` : ''}` : ''}
 ${serviceType === 'pickup' ? `⏰ Pickup Time: ${timeInfo}` : ''}
-${serviceType === 'dine-in' ? dineInInfo : ''}
+${serviceType === 'installation' ? installationInfo : ''}
 
 
 📋 ORDER DETAILS:
 ${cartItems.map(item => {
   let itemDetails = `• ${item.name}`;
-  if (item.selectedVariation) {
-    itemDetails += ` (${item.selectedVariation.name})`;
-  }
-  if (item.selectedAddOns && item.selectedAddOns.length > 0) {
-    itemDetails += ` + ${item.selectedAddOns.map(addOn => 
-      addOn.quantity && addOn.quantity > 1 
-        ? `${addOn.name} x${addOn.quantity}`
-        : addOn.name
-    ).join(', ')}`;
-  }
   itemDetails += ` x${item.quantity} - ₱${item.totalPrice * item.quantity}`;
   return itemDetails;
 }).join('\n')}
@@ -95,7 +83,7 @@ ${serviceType === 'delivery' ? `🛵 DELIVERY FEE:` : ''}
 
 ${notes ? `📝 Notes: ${notes}` : ''}
 
-Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
+Please confirm this order to proceed. Thank you for choosing Battery Delivery CDO! 🔋
     `.trim();
 
     const encodedMessage = encodeURIComponent(orderDetails);
@@ -108,7 +96,7 @@ Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
   const isDetailsValid = customerName && contactNumber && 
     (serviceType !== 'delivery' || address) && 
     (serviceType !== 'pickup' || (pickupTime !== 'custom' || customTime)) &&
-    (serviceType !== 'dine-in' || (partySize > 0 && dineInTime));
+    (serviceType !== 'installation' || (vehicleInfo.make && vehicleInfo.model && vehicleInfo.year && installationDate));
 
   if (step === 'details') {
     return (
@@ -134,14 +122,6 @@ Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
                 <div key={item.id} className="flex items-center justify-between py-2 border-b border-red-100">
                   <div>
                     <h4 className="font-medium text-black">{item.name}</h4>
-                    {item.selectedVariation && (
-                      <p className="text-sm text-gray-600">Size: {item.selectedVariation.name}</p>
-                    )}
-                    {item.selectedAddOns && item.selectedAddOns.length > 0 && (
-                      <p className="text-sm text-gray-600">
-                        Add-ons: {item.selectedAddOns.map(addOn => addOn.name).join(', ')}
-                      </p>
-                    )}
                     <p className="text-sm text-gray-600">₱{item.totalPrice} x {item.quantity}</p>
                   </div>
                   <span className="font-semibold text-black">₱{item.totalPrice * item.quantity}</span>
@@ -192,9 +172,9 @@ Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
                 <label className="block text-sm font-medium text-black mb-3">Service Type *</label>
                 <div className="grid grid-cols-3 gap-3">
                   {[
-                    { value: 'dine-in', label: 'Dine In', icon: '🪑' },
-                    { value: 'pickup', label: 'Pickup', icon: '🚶' },
-                    { value: 'delivery', label: 'Delivery', icon: '🛵' }
+                    { value: 'delivery', label: 'Home Delivery', icon: '🏠' },
+                    { value: 'pickup', label: 'Store Pickup', icon: '🏪' },
+                    { value: 'installation', label: 'Installation', icon: '🔧' }
                   ].map((option) => (
                     <button
                       key={option.value}
@@ -213,41 +193,68 @@ Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
                 </div>
               </div>
 
-              {/* Dine-in Details */}
-              {serviceType === 'dine-in' && (
+              {/* Installation Details */}
+              {serviceType === 'installation' && (
                 <>
-                  <div>
-                    <label className="block text-sm font-medium text-black mb-2">Party Size *</label>
-                    <div className="flex items-center space-x-4">
-                      <button
-                        type="button"
-                        onClick={() => setPartySize(Math.max(1, partySize - 1))}
-                        className="w-10 h-10 rounded-lg border-2 border-red-300 flex items-center justify-center text-red-600 hover:border-red-400 hover:bg-red-50 transition-all duration-200"
-                      >
-                        -
-                      </button>
-                      <span className="text-2xl font-semibold text-black min-w-[3rem] text-center">{partySize}</span>
-                      <button
-                        type="button"
-                        onClick={() => setPartySize(Math.min(20, partySize + 1))}
-                        className="w-10 h-10 rounded-lg border-2 border-red-300 flex items-center justify-center text-red-600 hover:border-red-400 hover:bg-red-50 transition-all duration-200"
-                      >
-                        +
-                      </button>
-                      <span className="text-sm text-gray-600 ml-2">person{partySize !== 1 ? 's' : ''}</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-2">Vehicle Make *</label>
+                      <input
+                        type="text"
+                        value={vehicleInfo.make}
+                        onChange={(e) => setVehicleInfo({...vehicleInfo, make: e.target.value})}
+                        placeholder="e.g., Toyota, Honda, Ford"
+                        className="w-full px-4 py-3 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-2">Vehicle Model *</label>
+                      <input
+                        type="text"
+                        value={vehicleInfo.model}
+                        onChange={(e) => setVehicleInfo({...vehicleInfo, model: e.target.value})}
+                        placeholder="e.g., Vios, Civic, Ranger"
+                        className="w-full px-4 py-3 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-2">Year *</label>
+                      <input
+                        type="number"
+                        value={vehicleInfo.year}
+                        onChange={(e) => setVehicleInfo({...vehicleInfo, year: e.target.value})}
+                        placeholder="e.g., 2020"
+                        min="1990"
+                        max="2024"
+                        className="w-full px-4 py-3 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-2">Engine Type</label>
+                      <input
+                        type="text"
+                        value={vehicleInfo.engine}
+                        onChange={(e) => setVehicleInfo({...vehicleInfo, engine: e.target.value})}
+                        placeholder="e.g., 1.5L, 2.0L, Diesel"
+                        className="w-full px-4 py-3 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                      />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-black mb-2">Preferred Time *</label>
+                    <label className="block text-sm font-medium text-black mb-2">Preferred Installation Date *</label>
                     <input
-                      type="datetime-local"
-                      value={dineInTime}
-                      onChange={(e) => setDineInTime(e.target.value)}
+                      type="date"
+                      value={installationDate}
+                      onChange={(e) => setInstallationDate(e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
                       className="w-full px-4 py-3 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
                       required
                     />
-                    <p className="text-xs text-gray-500 mt-1">Please select your preferred dining time</p>
+                    <p className="text-xs text-gray-500 mt-1">Please select your preferred installation date</p>
                   </div>
                 </>
               )}
@@ -445,19 +452,18 @@ Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
                   Pickup Time: {pickupTime === 'custom' ? customTime : `${pickupTime} minutes`}
                 </p>
               )}
-              {serviceType === 'dine-in' && (
+              {serviceType === 'installation' && (
                 <>
                   <p className="text-sm text-gray-600">
-                    Party Size: {partySize} person{partySize !== 1 ? 's' : ''}
+                    Vehicle: {vehicleInfo.year} {vehicleInfo.make} {vehicleInfo.model}
+                    {vehicleInfo.engine && ` (${vehicleInfo.engine})`}
                   </p>
                   <p className="text-sm text-gray-600">
-                    Preferred Time: {dineInTime ? new Date(dineInTime).toLocaleString('en-US', { 
+                    Installation Date: {installationDate ? new Date(installationDate).toLocaleDateString('en-US', { 
                       weekday: 'long', 
                       year: 'numeric', 
                       month: 'long', 
-                      day: 'numeric', 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
+                      day: 'numeric'
                     }) : 'Not selected'}
                   </p>
                 </>
@@ -468,18 +474,6 @@ Please confirm this order to proceed. Thank you for choosing ClickEats! 🥟
               <div key={item.id} className="flex items-center justify-between py-2 border-b border-red-100">
                 <div>
                   <h4 className="font-medium text-black">{item.name}</h4>
-                  {item.selectedVariation && (
-                    <p className="text-sm text-gray-600">Size: {item.selectedVariation.name}</p>
-                  )}
-                  {item.selectedAddOns && item.selectedAddOns.length > 0 && (
-                    <p className="text-sm text-gray-600">
-                      Add-ons: {item.selectedAddOns.map(addOn => 
-                        addOn.quantity && addOn.quantity > 1 
-                          ? `${addOn.name} x${addOn.quantity}`
-                          : addOn.name
-                      ).join(', ')}
-                    </p>
-                  )}
                   <p className="text-sm text-gray-600">₱{item.totalPrice} x {item.quantity}</p>
                 </div>
                 <span className="font-semibold text-black">₱{item.totalPrice * item.quantity}</span>
